@@ -1,15 +1,14 @@
 #include <iostream>
 #include <limits>
 #include "Room.h"
-#include "Exhibit.h"
 #include "Picture.h"
+#include "Sculpture.h"
+#include "ScientificInstrument.h"
+#include "ArchelogicalExhibit.h"
 #include "VolumeExhibit.h"
-
-using namespace std;
-
 namespace console {
     void clearConsoleScreen() {
-        cerr << "\033[2J\033[1;1H";
+        std::cout << "\033[2J\033[1;1H";
     }
 }
 
@@ -18,234 +17,297 @@ void processRoom(Room*& room) {
 
     try {
         console::clearConsoleScreen();
-        cout << "\nPlease create the room and enter main parameters:" << endl;
-        cout << "Length of the room = ";
-        cin >> length;
-        cout << "Width of the room = ";
-        cin >> width;
-        cout << "Height of the room = ";
-        cin >> height;
+        std::cout << "\nPlease create the room and enter main parameters:" << std::endl;
+        std::cout << "Length of the room = ";
+        std::cin >> length;
+        std::cout << "Width of the room = ";
+        std::cin >> width;
+        std::cout << "Height of the room = ";
+        std::cin >> height;
 
-        if (cin.fail()) {
-            throw invalid_argument("Invalid input. Please enter numeric values for dimensions.");
+        if (std::cin.fail()) {
+            throw std::invalid_argument("Invalid input. Please enter numeric values for dimensions.");
+        }
+
+        if (room) {
+            std::cout << "Room has already been created!" << std::endl;
+            return;
         }
 
         room = new Room(length, width, height, 0, 0, 0);
 
-        
-        room->floorArea();
-        room->wallArea();
         room->allArea();
-
-        cout << room->Info() << endl;
-
+        std::cout << room->Info() << std::endl;
     }
-    catch (const exception& e) {
-        cerr << "Error: " << e.what() << endl;
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 }
 
 Picture processPicture() {
-    string author, country, name;
+    std::string author, country, name;
     int year;
     double length, width;
 
     try {
-        cout << "Enter exhibit details:" << endl;
-        cout << "Name: ";
-        cin.ignore();
-        getline(cin, name);
+        std::cout << "Enter exhibit details:" << std::endl;
+        std::cout << "Name: ";
+        std::cin.ignore();
+        std::getline(std::cin, name);
 
-        cout << "Country: ";
-        getline(cin, country);
+        std::cout << "Country: ";
+        std::getline(std::cin, country);
 
-        cout << "Year: ";
-        cin >> year;
+        std::cout << "Year: ";
+        std::cin >> year;
 
-        cout << "Length: ";
-        cin >> length;
+        std::cout << "Length: ";
+        std::cin >> length;
 
-        cout << "Width: ";
-        cin >> width;
+        std::cout << "Width: ";
+        std::cin >> width;
 
-        cout << "Is the author known? 1 - yes, 2 - no: ";
+        std::cout << "Is the author known? 1 - yes, 2 - no: ";
         int option;
-        cin >> option;
+        std::cin >> option;
 
         if (option != 1 && option != 2) {
-            throw invalid_argument("Invalid option. Please enter 1 or 2.");
+            throw std::invalid_argument("Invalid option. Please enter 1 or 2.");
         }
-        cin.ignore();
+        std::cin.ignore();
         if (option == 1) {
-            cout << "Author: ";
-            getline(cin, author);
+            std::cout << "Author: ";
+            std::getline(std::cin, author);
             Picture picture(author, country, name, year, width, length);
-            cout << endl << picture.Info() << endl;
+            std::cout << std::endl << picture.Info() << std::endl;
 
             return picture;
         }
         else {
             Picture picture(name, country, year, width, length);
-            cout << endl << picture.Info() << endl;
+            std::cout << std::endl << picture.Info() << std::endl;
 
             return picture;
         }
     }
-    catch (const invalid_argument& e) {
-        cerr << "Error: " << e.what() << endl;
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    catch (const std::invalid_argument& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
-    return Picture("", "", "", 0, 0, 0);
+    return Picture("", " ", 0, 0, 0);
 }
 
-void processVolumeExhibit(Room* room) {
-    string name, country, author;
+void processSculpture(Room* room) {
+    std::string author, country, name;
     int year;
     double length, width, height;
 
     try {
-        cout << "Enter Volume Exhibit details:" << endl;
-        cout << "Name: ";
-        cin.ignore();
-        getline(cin, name);
+        std::cout << "Enter sculpture details:" << std::endl;
+        std::cout << "Name: ";
+        std::cin.ignore();
+        std::getline(std::cin, name);
 
-        cout << "Country: ";
-        getline(cin, country);
+        std::cout << "Country: ";
+        std::getline(std::cin, country);
 
-        cout << "Year: ";
-        cin >> year;
+        std::cout << "Year: ";
+        std::cin >> year;
 
-        cout << "Length: ";
-        cin >> length;
+        std::cout << "Length: ";
+        std::cin >> length;
 
-        cout << "Width: ";
-        cin >> width;
+        std::cout << "Width: ";
+        std::cin >> width;
 
-        cout << "Height: ";
-        cin >> height;
+        std::cout << "Height: ";
+        std::cin >> height;
 
-        cin.ignore(); 
+        Sculpture sculpture(author, country, name, year, width, height, length);
 
-        cout << "Is the author known? 1 - yes, 2 - no: ";
-        int option;
-        cin >> option;
-
-        if (option != 1 && option != 2) {
-            throw invalid_argument("Invalid option. Please enter 1 or 2.");
-        }
-
-        cin.ignore(); 
-
-        if (option == 1) {
-            cout << "Author: ";
-            getline(cin, author);
-            VolumeExhibit volumeExhibit(author, country, name, year, width, height, length);
-            cout << endl << volumeExhibit.Info() << endl;
-
-            if (!room->addExhibit(volumeExhibit)) {
-                cout << "Exhibit does not fit in the room." << endl;
-            }
+        if (room->addExhibit(sculpture)) {
+            std::cout << "Sculpture added to the room." << std::endl;
         }
         else {
-            VolumeExhibit volumeExhibit(name, country, year, width, height, length);
-            cout << endl << volumeExhibit.Info() << endl;
-
-            if (!room->addExhibit(volumeExhibit)) {
-                cout << "Exhibit does not fit in the room." << endl;
-            }
+            std::cerr << "Error adding sculpture to the room." << std::endl;
         }
     }
-    catch (const invalid_argument& e) {
-        cerr << "Error: " << e.what() << endl;
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    catch (const std::invalid_argument& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+}
+
+void processScientificInstrument(Room* room) {
+    std::string author, country, name;
+    int year;
+    double length, width, height;
+
+    try {
+        std::cout << "Enter scientific instrument details:" << std::endl;
+        std::cout << "Name: ";
+        std::cin.ignore();
+        std::getline(std::cin, name);
+
+        std::cout << "Country: ";
+        std::getline(std::cin, country);
+
+        std::cout << "Year: ";
+        std::cin >> year;
+
+        std::cout << "Length: ";
+        std::cin >> length;
+
+        std::cout << "Width: ";
+        std::cin >> width;
+
+        std::cout << "Height: ";
+        std::cin >> height;
+
+        ScientificInstrument instrument(author, country, name, year, width, height, length);
+
+        if (room->addExhibit(instrument)) {
+            std::cout << "Scientific instrument added to the room." << std::endl;
+        }
+        else {
+            std::cerr << "Error adding scientific instrument to the room." << std::endl;
+        }
+    }
+    catch (const std::invalid_argument& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+}
+
+void processArchaeologicalArtifact(Room* room) {
+    std::string author, country, name;
+    int year;
+    double length, width, height;
+
+    try {
+        std::cout << "Enter archaeological artifact details:" << std::endl;
+        std::cout << "Name: ";
+        std::cin.ignore();
+        std::getline(std::cin, name);
+
+        std::cout << "Country: ";
+        std::getline(std::cin, country);
+
+        std::cout << "Year: ";
+        std::cin >> year;
+
+        std::cout << "Length: ";
+        std::cin >> length;
+
+        std::cout << "Width: ";
+        std::cin >> width;
+
+        std::cout << "Height: ";
+        std::cin >> height;
+
+        ArchaeologicalArtifact artifact(author, country, name, year, width, height, length);
+
+        if (room->addExhibit(artifact)) {
+            std::cout << "Archaeological artifact added to the room." << std::endl;
+        }
+        else {
+            std::cerr << "Error adding archaeological artifact to the room." << std::endl;
+        }
+    }
+    catch (const std::invalid_argument& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 }
 
 int main() {
     Room* room = nullptr;
 
-    cout << "\t\tHello! This is my individual task - class hierarchy of Museum " << endl;
-    cout << "\t\tPress enter to start" << endl;
-    cin.get();
+    std::cout << "\t\tHello! This is my individual task - class hierarchy of Museum " << std::endl;
+    std::cout << "\t\tPress enter to start" << std::endl;
+    std::cin.get();
     console::clearConsoleScreen();
     int option;
     do {
-        cout << "\n\tPress key '1' to create a room." <<
+        std::cout << "\n\tPress key '1' to create a room." <<
             "\n\tPress key '2' to create an exhibit." <<
             "\n\tPress key '3' to display exhibits in the room." <<
             "\n\tPress key '4' to display room info." <<
-            "\n\tPress key '5' to exit." << endl;
-        cin >> option;
+            "\n\tPress key '5' to exit." << std::endl;
+        std::cin >> option;
 
         switch (option) {
         case 1:
             processRoom(room);
-            cin.get();
+            std::cin.get();
             break;
         case 2:
             if (room == nullptr) {
-                cout << "You need to create a room first!" << endl;
+                std::cout << "You need to create a room first!" << std::endl;
                 break;
             }
-            cout << "Enter the number of exhibit do you want to create? " << endl;
-            cout << "1. Picture" << endl;
-            cout << "2. Volume Exhibit" << endl;
+            std::cout << "Enter the number of exhibit do you want to create? " << std::endl;
+            std::cout << "1. Picture" << std::endl;
+            std::cout << "2. Sculpture" << std::endl;
+            std::cout << "3. Scientific Instrument" << std::endl;
+            std::cout << "4. Archaeological Artifact" << std::endl;
             int optionEx;
-            cin >> optionEx;
+            std::cin >> optionEx;
             switch (optionEx) {
             case 1: {
                 Picture picture = processPicture();
                 if (!room->addExhibit(picture)) {
-                    cout << "Exhibit does not fit in the room." << endl;
+                    std::cerr << "There was an error adding the picture to the room." << std::endl;
                 }
-                cin.get();
-                console::clearConsoleScreen();
                 break;
             }
-            case 2:
-                processVolumeExhibit(room);
-                cin.get();
-                console::clearConsoleScreen();
+            case 2: {
+                processSculpture(room);
                 break;
+            }
+            case 3: {
+                processScientificInstrument(room);
+                break;
+            }
+            case 4: {
+                processArchaeologicalArtifact(room);
+                break;
+            }
             default:
-                cerr << "Invalid option. Please enter 1 or 2." << endl;
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                std::cerr << "Invalid option." << std::endl;
                 break;
             }
             break;
         case 3:
             if (room == nullptr) {
-                cout << "You need to create a room first!" << endl;
+                std::cout << "You need to create a room first!" << std::endl;
+                break;
             }
-            else {
-                room->displayExhibitsInfo();
-            }
+            room->displayExhibitsInfo();
             break;
         case 4:
             if (room == nullptr) {
-                cout << "You need to create a room first!" << endl;
+                std::cout << "You need to create a room first!" << std::endl;
+                break;
             }
-            else {
-                cout << room->Info() << endl;
-            }
+            std::cout << room->Info() << std::endl;
             break;
         case 5:
-            cout << "Exiting program...." << endl;
+            std::cout << "Exiting program..." << std::endl;
             break;
         default:
-            cerr << "Invalid option. Please enter 1, 2, 3, 4, or 5." << endl;
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            std::cerr << "Invalid option. Please enter a number from 1 to 5." << std::endl;
             break;
         }
+
     } while (option != 5);
 
     delete room;
-
     return 0;
 }

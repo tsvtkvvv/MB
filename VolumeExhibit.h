@@ -1,19 +1,18 @@
 #pragma once
 #include "Exhibit.h"
 
+class VolumeExhibit : public Exhibit {
+protected:
+    double width;
+    double height;
+    double length;
 
-class VolumeExhibit: public Exhibit
-{
-private:
-	
-	double width;
-	double height;
-	double length;
 public:
-	VolumeExhibit(const std::string& author, const std::string& country, const std::string& name, int year, double width, double height, double length);
-	VolumeExhibit(const std::string& name, const std::string& country, int year, double width, double height, double lenght);
+    VolumeExhibit(const std::string& author, const std::string& country, const std::string& name, int year, double width, double height, double length);
+    VolumeExhibit(const std::string& country, const std::string& name, int year, double width, double height, double length);
 
-	virtual std::string Info() const;
+    virtual std::string Info() const override;
+    virtual double getVolume() const;
 
+    virtual ~VolumeExhibit() {}
 };
-

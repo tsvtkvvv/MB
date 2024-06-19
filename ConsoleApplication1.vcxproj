@@ -128,16 +128,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArchelogicalExhibit.cpp" />
     <ClCompile Include="mainsource.cpp" />
     <ClCompile Include="Exhibit.cpp" />
     <ClCompile Include="Picture.cpp" />
     <ClCompile Include="Room.cpp" />
+    <ClCompile Include="ScientificInstrument.cpp" />
+    <ClCompile Include="Sculpture.cpp" />
     <ClCompile Include="VolumeExhibit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArchelogicalExhibit.h" />
     <ClInclude Include="Exhibit.h" />
     <ClInclude Include="Picture.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="ScientificInstrument.h" />
+    <ClInclude Include="Sculpture.h" />
     <ClInclude Include="VolumeExhibit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
