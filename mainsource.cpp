@@ -129,15 +129,41 @@ void processSculpture(Room* room) {
         cout << "Height: ";
         cin >> height;
 
+        cout << "Is the author known? 1 - yes, 2 - no: ";
+        int optionSc;
+        cin >> optionSc;
+        cin.ignore(); 
 
-        Sculpture sculpture(author, country, name, year, width, height, length);
+        switch (optionSc) {
+        case 1: {
+            cout << "Author: ";
+            getline(cin, author);
+            Sculpture sculpture(author, country, name, year, width, height, length);
 
-        if (room->addExhibit(sculpture)) {
-            cout << "Sculpture added to the room." << endl;
-            cout << "Type: Sculpture" << endl; 
+            if (room->addExhibit(sculpture)) {
+                cout << "Sculpture added to the room." << endl;
+                cout << "Type: Sculpture" << endl;
+            }
+            else {
+                cerr << "Error adding sculpture to the room." << endl;
+            }
+            break;
         }
-        else {
-            cerr << "Error adding sculpture to the room." << endl;
+        case 2: {
+            Sculpture sculpture(country, name, year, width, height, length);
+
+            if (room->addExhibit(sculpture)) {
+                cout << "Sculpture added to the room." << endl;
+                cout << "Type: Sculpture" << endl;
+            }
+            else {
+                cerr << "Error adding sculpture to the room." << endl;
+            }
+            break;
+        }
+        default:
+            cerr << "Invalid option." << endl;
+            break;
         }
     }
     catch (const invalid_argument& e) {
@@ -173,14 +199,40 @@ void processScientificInstrument(Room* room) {
         cout << "Height: ";
         cin >> height;
 
-        ScientificInstrument instrument(author, country, name, year, width, height, length);
+        cout << "Is the author known? 1 - yes, 2 - no: ";
+        int option;
+        cin >> option;
 
-        if (room->addExhibit(instrument)) {
-            cout << "Scientific instrument added to the room." << endl;
-            cout << "Type: Scientific Instrument" << endl; 
+        if (option != 1 && option != 2) {
+            throw invalid_argument("Invalid option. Please enter 1 or 2.");
+        }
+        cin.ignore();
+
+        if (option == 1) {
+            cout << "Author: ";
+            getline(cin, author);
+            ScientificInstrument instrument(author, country, name, year, width, height, length);
+            cout << endl << instrument.Info() << endl;
+            cout << "Type: Scientific Instrument" << endl;
+
+            if (room->addExhibit(instrument)) {
+                cout << "Scientific instrument added to the room." << endl;
+            }
+            else {
+                cerr << "Error adding scientific instrument to the room." << endl;
+            }
         }
         else {
-            cerr << "Error adding scientific instrument to the room." << endl;
+            ScientificInstrument instrument(country, name, year, width, height, length);
+            cout << endl << instrument.Info() << endl;
+            cout << "Type: Scientific Instrument" << endl;
+
+            if (room->addExhibit(instrument)) {
+                cout << "Scientific instrument added to the room." << endl;
+            }
+            else {
+                cerr << "Error adding scientific instrument to the room." << endl;
+            }
         }
     }
     catch (const invalid_argument& e) {
@@ -189,6 +241,7 @@ void processScientificInstrument(Room* room) {
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 }
+
 
 void processArchaeologicalArtifact(Room* room) {
     string author, country, name;
@@ -216,14 +269,40 @@ void processArchaeologicalArtifact(Room* room) {
         cout << "Height: ";
         cin >> height;
 
-        ArchaeologicalArtifact artifact(author, country, name, year, width, height, length);
+        cout << "Is the author known? 1 - yes, 2 - no: ";
+        int option;
+        cin >> option;
 
-        if (room->addExhibit(artifact)) {
-            cout << "Archaeological artifact added to the room." << endl;
-            cout << "Type: Archaeological Artifact" << endl; 
+        if (option != 1 && option != 2) {
+            throw invalid_argument("Invalid option. Please enter 1 or 2.");
+        }
+        cin.ignore();
+
+        if (option == 1) {
+            cout << "Author: ";
+            getline(cin, author);
+            ArchaeologicalArtifact artifact(author, country, name, year, width, height, length);
+            cout << endl << artifact.Info() << endl;
+            cout << "Type: Archaeological Artifact" << endl;
+
+            if (room->addExhibit(artifact)) {
+                cout << "Archaeological artifact added to the room." << endl;
+            }
+            else {
+                cerr << "Error adding archaeological artifact to the room." << endl;
+            }
         }
         else {
-            cerr << "Error adding archaeological artifact to the room." << endl;
+            ArchaeologicalArtifact artifact(country, name, year, width, height, length);
+            cout << endl << artifact.Info() << endl;
+            cout << "Type: Archaeological Artifact" << endl;
+
+            if (room->addExhibit(artifact)) {
+                cout << "Archaeological artifact added to the room." << endl;
+            }
+            else {
+                cerr << "Error adding archaeological artifact to the room." << endl;
+            }
         }
     }
     catch (const invalid_argument& e) {
@@ -232,6 +311,7 @@ void processArchaeologicalArtifact(Room* room) {
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 }
+
 
 int main() {
     Room* room = nullptr;
