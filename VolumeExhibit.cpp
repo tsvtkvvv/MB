@@ -23,3 +23,5 @@ std::string VolumeExhibit::Info() const {
 double VolumeExhibit::getVolArea() const {
     return width * length;
 }
+
+

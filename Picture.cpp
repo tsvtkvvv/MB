@@ -23,6 +23,7 @@ double Picture::getArea() const
     return width * length;
 }
 
+
 std::string Picture::Info() const
 {
     std::ostringstream result;

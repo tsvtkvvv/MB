@@ -26,3 +26,6 @@ std::string ArchaeologicalArtifact::Info() const {
 double ArchaeologicalArtifact::getVolArea() const {
     return width * length;
 }
+
+
+

@@ -13,7 +13,7 @@ namespace console {
     }
 }
 
-using namespace std; 
+using namespace std;
 
 void processRoom(Room*& room) {
     double length, width, height;
@@ -85,13 +85,13 @@ Picture processPicture() {
             getline(cin, author);
             Picture picture(author, country, name, year, width, length);
             cout << endl << picture.Info() << endl;
-
+            cout << "Type: Picture" << endl; 
             return picture;
         }
         else {
             Picture picture(name, country, year, width, length);
             cout << endl << picture.Info() << endl;
-
+            cout << "Type: Picture" << endl; 
             return picture;
         }
     }
@@ -100,7 +100,7 @@ Picture processPicture() {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
-    return Picture("", "", 0, 0, 0); 
+    return Picture("", "", 0, 0, 0);
 }
 
 void processSculpture(Room* room) {
@@ -129,10 +129,12 @@ void processSculpture(Room* room) {
         cout << "Height: ";
         cin >> height;
 
+
         Sculpture sculpture(author, country, name, year, width, height, length);
 
         if (room->addExhibit(sculpture)) {
             cout << "Sculpture added to the room." << endl;
+            cout << "Type: Sculpture" << endl; 
         }
         else {
             cerr << "Error adding sculpture to the room." << endl;
@@ -175,6 +177,7 @@ void processScientificInstrument(Room* room) {
 
         if (room->addExhibit(instrument)) {
             cout << "Scientific instrument added to the room." << endl;
+            cout << "Type: Scientific Instrument" << endl; 
         }
         else {
             cerr << "Error adding scientific instrument to the room." << endl;
@@ -217,6 +220,7 @@ void processArchaeologicalArtifact(Room* room) {
 
         if (room->addExhibit(artifact)) {
             cout << "Archaeological artifact added to the room." << endl;
+            cout << "Type: Archaeological Artifact" << endl; 
         }
         else {
             cerr << "Error adding archaeological artifact to the room." << endl;
@@ -248,7 +252,7 @@ int main() {
         switch (option) {
         case 1:
             processRoom(room);
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             break;
         case 2:
             if (room == nullptr) {
@@ -311,6 +315,6 @@ int main() {
 
     } while (option != 5);
 
-    delete room;
+    delete room; 
     return 0;
 }

@@ -9,6 +9,8 @@ public:
 	Picture(const std::string& name, const std::string& country, int year, double width, double length);
 
 	double getArea() const override;
+
+
 	
 	std::string Info() const override;
 	

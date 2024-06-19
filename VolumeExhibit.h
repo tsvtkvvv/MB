@@ -13,6 +13,6 @@ public:
 
     virtual std::string Info() const override;
     virtual double getVolArea() const;
-
+    
     virtual ~VolumeExhibit() {}
 };

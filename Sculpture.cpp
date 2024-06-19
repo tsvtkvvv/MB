@@ -25,3 +25,4 @@ std::string Sculpture::Info() const {
 double Sculpture::getVolArea() const {
     return width *  length;
 }
+

@@ -16,7 +16,6 @@ Room::Room(double length, double width, double height, double usableWallArea, do
     }
 }
 
-
 double Room::floorArea() {
     usableFloorArea = length * width;
     remainingFloorArea = usableFloorArea;
@@ -29,11 +28,11 @@ double Room::wallArea() {
     return usableWallArea;
 }
 
-
 double Room::allArea() {
     allRoomArea = (floorArea() * 2) + wallArea();
     return allRoomArea;
 }
+
 bool Room::addExhibit(const Exhibit& exhibit) {
     double exhibitArea = exhibit.getArea();
     if (canFitExhibit(exhibitArea)) {
@@ -44,34 +43,28 @@ bool Room::addExhibit(const Exhibit& exhibit) {
                 return false;
             }
             remainingWallArea -= pictureArea;
+            exhibits.push_back(exhibit);
+            return true;
         }
         else if (const VolumeExhibit* volumeExhibit = dynamic_cast<const VolumeExhibit*>(&exhibit)) {
             double volumeArea = volumeExhibit->getVolArea();
             if (remainingFloorArea <= 0) {
                 std::cerr << "Error: Remaining floor area cannot be zero or negative." << std::endl;
-                return false; 
+                return false;
             }
             remainingFloorArea -= volumeArea;
+            exhibits.push_back(exhibit);
+            return true;
         }
-
-        exhibits.push_back(exhibit); 
-
-        return true;
     }
 
     std::cerr << "Error: Exhibit does not fit in the room." << std::endl;
     return false;
 }
 
-
-
-
-
 bool Room::canFitExhibit(double exhibitArea) const {
     return exhibitArea <= remainingFloorArea;
 }
-
-
 
 void Room::displayExhibitsInfo() const {
     std::cout << "Exhibits in the room:" << std::endl;

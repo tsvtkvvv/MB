@@ -26,3 +26,5 @@ std::string ScientificInstrument::Info() const {
 double ScientificInstrument::getVolArea() const {
     return width * length;
 }
+
+
