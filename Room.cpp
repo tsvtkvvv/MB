@@ -26,7 +26,7 @@ double Room::floorArea() {
 double Room::wallArea() {
     usableWallArea = (length * height + width * height) * 2;
     remainingWallArea = usableWallArea / 4;
-    return usableWallArea / 4;
+    return usableWallArea;
 }
 
 
@@ -37,29 +37,32 @@ double Room::allArea() {
 bool Room::addExhibit(const Exhibit& exhibit) {
     double exhibitArea = exhibit.getArea();
     if (canFitExhibit(exhibitArea)) {
-        exhibits.push_back(exhibit);
-
-       
         if (const Picture* picture = dynamic_cast<const Picture*>(&exhibit)) {
-            remainingWallArea -= picture->getArea();
-            if (remainingWallArea < 0) {
-                std::cerr << "Error";
+            double pictureArea = picture->getArea();
+            if (remainingWallArea <= 0) {
+                std::cerr << "Error: Remaining wall area cannot be zero or negative." << std::endl;
+                return false;
             }
-           
+            remainingWallArea -= pictureArea;
         }
-        
         else if (const VolumeExhibit* volumeExhibit = dynamic_cast<const VolumeExhibit*>(&exhibit)) {
-            remainingFloorArea -= volumeExhibit->getVolArea();
-            if (remainingFloorArea < 0) {
-                std::cerr << "Error";
+            double volumeArea = volumeExhibit->getVolArea();
+            if (remainingFloorArea <= 0) {
+                std::cerr << "Error: Remaining floor area cannot be zero or negative." << std::endl;
+                return false; 
             }
+            remainingFloorArea -= volumeArea;
         }
+
+        exhibits.push_back(exhibit); 
 
         return true;
     }
-    std::cerr << "Error: Exhibit does not fit in the room.\n";
+
+    std::cerr << "Error: Exhibit does not fit in the room." << std::endl;
     return false;
 }
+
 
 
 
