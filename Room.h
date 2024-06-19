@@ -1,10 +1,12 @@
 #pragma once
 #include <vector>
+#include <string>
 #include "Exhibit.h"
 
 class Room {
 private:
-    double length, width, height, usableWallArea, usableFloorArea, allRoomArea;
+    double length, width, height;
+    double usableWallArea, usableFloorArea, allRoomArea;
     double remainingFloorArea, remainingWallArea;
     std::vector<Exhibit> exhibits;
 
@@ -18,5 +20,7 @@ public:
     bool addExhibit(const Exhibit& exhibit);
     void displayExhibitsInfo() const;
     std::string Info() const;
-    int getExhibitCount() const; 
+    int getExhibitCount() const;
 };
+
+

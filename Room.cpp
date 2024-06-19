@@ -1,19 +1,19 @@
 #include "Room.h"
 #include <iostream>
-#include <exception>
-#include <iomanip>
 #include <sstream>
+#include <stdexcept>
 
-Room::Room(double length, double width, double height, double usableWallArea, double usableFloorArea, double allRoomArea) :
-    length(length), width(width), height(height), usableWallArea(usableWallArea), usableFloorArea(usableFloorArea), allRoomArea(allRoomArea),
-    remainingFloorArea(0), remainingWallArea(0) {
-    if (usableWallArea > allRoomArea) {
-        throw std::invalid_argument("Error! Wall area must be lower than all area of room.");
+Room::Room(double length, double width, double height, double usableWallArea, double usableFloorArea, double allRoomArea)
+    : length(length), width(width), height(height), usableWallArea(usableWallArea), usableFloorArea(usableFloorArea), allRoomArea(allRoomArea),
+    remainingFloorArea(usableFloorArea), remainingWallArea(usableWallArea / 4) {
+    if (length <= 0 || width <= 0 || height <= 0) {
+        throw std::invalid_argument("All room dimensions and areas must be positive.");
     }
-    if (usableWallArea < 0 || allRoomArea < 0 || usableFloorArea < 0) {
-        throw std::invalid_argument("Error! Area of wall, floor and of all room equal zero");
+    if (usableWallArea > allRoomArea) {
+        throw std::invalid_argument("Wall area must not exceed the total area of the room.");
     }
 }
+
 
 double Room::floorArea() {
     usableFloorArea = length * width;
@@ -27,25 +27,28 @@ double Room::wallArea() {
     return usableWallArea / 4;
 }
 
+
 double Room::allArea() {
     allRoomArea = (floorArea() * 2) + wallArea();
     return allRoomArea;
 }
-
-bool Room::canFitExhibit(double exhibitArea) const {
-    return exhibitArea <= remainingFloorArea;
-}
-
 bool Room::addExhibit(const Exhibit& exhibit) {
     double exhibitArea = exhibit.getArea();
     if (canFitExhibit(exhibitArea)) {
         exhibits.push_back(exhibit);
         remainingFloorArea -= exhibitArea;
-        return true;
+        remainingWallArea -= exhibit.getArea(); 
     }
     std::cerr << "Error: Exhibit does not fit in the room.\n";
     return false;
 }
+
+
+bool Room::canFitExhibit(double exhibitArea) const {
+    return exhibitArea <= remainingFloorArea;
+}
+
+
 
 void Room::displayExhibitsInfo() const {
     std::cout << "Exhibits in the room:" << std::endl;
@@ -56,14 +59,13 @@ void Room::displayExhibitsInfo() const {
 
 std::string Room::Info() const {
     std::ostringstream result;
-    result << std::fixed << std::setprecision(2);
-    result << "\nParameters of the room : ";
-    result << "\nFloor area = " << usableFloorArea << " sq meters";
-    result << "\nWall area = " << usableWallArea << " sq meters";
-    result << "\nAll area of the room = " << allRoomArea << " sq meters";
-    result << "\nRemaining floor area = " << remainingFloorArea << " sq meters";
-    result << "\nRemaining wall area = " << remainingWallArea << " sq meters";
-    result << "\nNumber of exhibits = " << exhibits.size(); 
+    result << "\nParameters of the room:" << std::endl;
+    result << "Floor area = " << usableFloorArea << " sq meters" << std::endl;
+    result << "Wall area = " << usableWallArea << " sq meters" << std::endl;
+    result << "All area of the room = " << allRoomArea << " sq meters" << std::endl;
+    result << "Remaining floor area = " << remainingFloorArea << " sq meters" << std::endl;
+    result << "Remaining wall area = " << remainingWallArea << " sq meters" << std::endl;
+    result << "Number of exhibits = " << exhibits.size() << std::endl;
     return result.str();
 }
 
