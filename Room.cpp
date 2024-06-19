@@ -39,7 +39,7 @@ bool Room::addExhibit(const Exhibit& exhibit) {
         if (const Picture* picture = dynamic_cast<const Picture*>(&exhibit)) {
             double pictureArea = picture->getArea();
             if (remainingWallArea <= 0) {
-                std::cerr << "Error: Remaining wall area cannot be zero or negative." << std::endl;
+                std::cerr << "Error: You can`t create an exhibit." << std::endl;
                 return false;
             }
             remainingWallArea -= pictureArea;
@@ -49,7 +49,7 @@ bool Room::addExhibit(const Exhibit& exhibit) {
         else if (const VolumeExhibit* volumeExhibit = dynamic_cast<const VolumeExhibit*>(&exhibit)) {
             double volumeArea = volumeExhibit->getVolArea();
             if (remainingFloorArea <= 0) {
-                std::cerr << "Error: Remaining floor area cannot be zero or negative." << std::endl;
+                std::cerr << "Error: You can`t create an exhibit." << std::endl;
                 return false;
             }
             remainingFloorArea -= volumeArea;

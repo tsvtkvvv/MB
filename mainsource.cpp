@@ -1,5 +1,7 @@
 #include <iostream>
 #include <limits>
+#include <conio.h>
+#include <stdlib.h>
 #include "Room.h"
 #include "Picture.h"
 #include "Sculpture.h"
@@ -320,14 +322,23 @@ int main() {
     cout << "\t\tPress enter to start" << endl;
     cin.get();
     console::clearConsoleScreen();
-    int option;
-    do {
+    int option = 0;
+    while(true) {
+
         cout << "\n\tPress key '1' to create a room." <<
             "\n\tPress key '2' to create an exhibit." <<
             "\n\tPress key '3' to display exhibits in the room." <<
             "\n\tPress key '4' to display room info." <<
             "\n\tPress key '5' to exit." << endl;
-        cin >> option;
+
+            cin >> option;
+            if (std::cin.fail()) {
+                std::cin.clear();
+                std::cin.ignore();
+                option = 0;
+            }
+
+
 
         switch (option) {
         case 1:
@@ -390,10 +401,12 @@ int main() {
             break;
         default:
             cerr << "Invalid option. Please enter a number from 1 to 5." << endl;
+
             break;
         }
+        if (option == 5) break;
 
-    } while (option != 5);
+    } 
 
     delete room; 
     return 0;
