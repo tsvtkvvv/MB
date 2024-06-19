@@ -20,6 +20,6 @@ std::string VolumeExhibit::Info() const {
     return result.str();
    
 }
-double VolumeExhibit::getVolume() const {
-    return width * height * length;
+double VolumeExhibit::getVolArea() const {
+    return width * length;
 }

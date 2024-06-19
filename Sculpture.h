@@ -7,5 +7,5 @@ public:
     Sculpture(const std::string& country, const std::string& name, int year, double width, double height, double length);
 
      std::string Info() const override;
-     double getVolume() const override;
+     double getVolArea() const override;
 };

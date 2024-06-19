@@ -12,7 +12,7 @@ public:
     VolumeExhibit(const std::string& country, const std::string& name, int year, double width, double height, double length);
 
     virtual std::string Info() const override;
-    virtual double getVolume() const;
+    virtual double getVolArea() const;
 
     virtual ~VolumeExhibit() {}
 };

@@ -2,6 +2,8 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#include "Picture.h"
+#include "VolumeExhibit.h"
 
 Room::Room(double length, double width, double height, double usableWallArea, double usableFloorArea, double allRoomArea)
     : length(length), width(width), height(height), usableWallArea(usableWallArea), usableFloorArea(usableFloorArea), allRoomArea(allRoomArea),
@@ -36,12 +38,30 @@ bool Room::addExhibit(const Exhibit& exhibit) {
     double exhibitArea = exhibit.getArea();
     if (canFitExhibit(exhibitArea)) {
         exhibits.push_back(exhibit);
-        remainingFloorArea -= exhibitArea;
-        remainingWallArea -= exhibit.getArea(); 
+
+       
+        if (const Picture* picture = dynamic_cast<const Picture*>(&exhibit)) {
+            remainingWallArea -= picture->getArea();
+            if (remainingWallArea < 0) {
+                std::cerr << "Error";
+            }
+           
+        }
+        
+        else if (const VolumeExhibit* volumeExhibit = dynamic_cast<const VolumeExhibit*>(&exhibit)) {
+            remainingFloorArea -= volumeExhibit->getVolArea();
+            if (remainingFloorArea < 0) {
+                std::cerr << "Error";
+            }
+        }
+
+        return true;
     }
     std::cerr << "Error: Exhibit does not fit in the room.\n";
     return false;
 }
+
+
 
 
 bool Room::canFitExhibit(double exhibitArea) const {
